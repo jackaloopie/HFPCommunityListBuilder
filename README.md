@@ -4,7 +4,7 @@ A lbrowser-based list builder for **Halo: Flashpoint**.
 All the features you've requested... and more.
 
 ## Use it online
-List Builder: [https://jackaloopie.github.io/HFPCommunityListBuilder/]
+List Builder: https://jackaloopie.github.io/HFPCommunityListBuilder/
 ## Features
 - Build forces by **Faction**
 - Tracks **Points**
