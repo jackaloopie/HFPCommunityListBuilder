@@ -22,7 +22,9 @@ List Builder: https://jackaloopie.github.io/HFPCommunityListBuilder/
 This is a fan-made community tool and is not affiliated with Microsoft, Mantic Games or Halo Stuidos
 
 ++ChangeLog++
+
 V1.1 8-6-2026
+
 UI & Layout
 
 * Sticky Header: Points total now floats at the top of the page when scrolling.
