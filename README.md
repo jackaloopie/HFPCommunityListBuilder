@@ -49,3 +49,13 @@ Unit Profile Fixes
 * Atriox: Added HVT and Imposing keywords. Created database entry for Power Gauntlet and added it to default weapons.
 * Chosen Warrior: Added Guarded keyword and default Spike Grenade.
 * Jiralhanae Warrior: Added default Spike Grenade.
+
+v1.2 9-6-2026
+Moved the 'Back To Editor' button from the bottom right to the top right.
+Removed the tickbox selections displaying text when selected in section 2.
+Re-fixed unit limitiations. Only 2 of each base unit, and only 1 of each legend.
+Removed the code that would attempt to automatically hide fireteam upgrade reference when switching detachments. BUG: On inital load, the manual tickbox to do this feature starts hidden, but then reveals once the first detachment/faction switch happens. It should ALWAYS be on but I couldn't fix it.
+Made the selected Detachment name display in the header/title box, which forced some UI movements in that section.
+Made the invalid list pdf printout a option instead of a hard no. Future: Can probably expand this to check if you have the required unit for each specific special order.
+Future Proofed, add rules around 'support' and their limit to only half the team.
+Updated some descriptions and things.
