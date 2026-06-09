@@ -76,6 +76,8 @@
     background-color: var(--bg); /* Uses your theme's background color so text underneath doesn't bleed through */
     z-index: 1000;              /* Ensures the header stays on top of cards and tables */
     padding-top: 12px;           /* Optional: matches the body padding so it looks clean when stuck to the top */
+	flex-wrap: wrap; /* Allows components to neatly stack on mobile screen sizes if needed */
+    gap: 10px;
 }
 
         h1 { font-size: 1.3rem; margin: 0; color: var(--accent); text-transform: uppercase; }
@@ -183,7 +185,7 @@
         #exit-clean-btn { 
     display: none;        /* 1. Hide it by default when the page loads */
     position: fixed;       /* 2. Fix it to the viewport */
-    bottom: 20px; 
+    top: 20px; 
     right: 20px; 
     z-index: 9999; 
     background: #ff5252; 
@@ -233,9 +235,12 @@ body.clean-view #exit-clean-btn {
     <header>
         <div>
             <h1>Halo Flashpoint Community List Builder</h1>
-            <div style="font-size: 0.8rem; opacity: 0.8;">V1.1 - Updated to Noble Team (July 2026). Email jackaloopie@gmail.com for updates, issues, or suggestions. </div>
+            <div style="font-size: 0.8rem; opacity: 0.8;">V1.2 - Updated to Noble Team (July 2026). Email jackaloopie@gmail.com for updates, issues, or suggestions. </div>
         </div>
-        <div class="global-points">Total: <span id="running-total-top">0</span> pts</div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+            <div class="global-points">Total: <span id="running-total-top">0</span> pts</div>
+			<div id="active-detachment-top" class="global-points">Detachment: UNSC Base</div>
+        </div>
     </header>
 
     <div class="section no-print">
@@ -330,14 +335,21 @@ body.clean-view #exit-clean-btn {
     <div class="section" id="special-orders-display-section">
         <h2>Selected Special Orders Reference</h2>
         <div id="orders-glossary-container">
-            <p style="font-style: italic; opacity: 0.7;">No special orders active in current strategy pool.</p>
+            <p style="font-style: italic; opacity: 0.7;">REMINDER*: You Need at least one. No Special Orders have been selected..</p>
         </div>
     </div>
 
     <div class="section" id="fireteam-upgrades-display-section">
         <h2>Selected Fireteam Upgrades Reference</h2>
         <div id="fireteam-glossary-container">
-            <p style="font-style: italic; opacity: 0.7;">No specialized fireteam upgrades active in current asset pool.</p>
+            <p style="font-style: italic; opacity: 0.7;">Detachments Only: No Fireteam Upgdrades Have Been Selected</p>
+        </div>
+    </div>
+	
+	<div class="section" id="command-upgrades-display-section">
+        <h2>Selected Command Upgrades Reference</h2>
+        <div id="command-glossary-container">
+            <p style="font-style: italic; opacity: 0.7;">No Command Upgrades have been selected</p>
         </div>
     </div>
     
@@ -371,6 +383,9 @@ body.clean-view #exit-clean-btn {
             </div>
             <div class="radio-group" id="fireteam-toggle-wrapper" style="margin-bottom:4px; display: none;">
                 <label><input type="checkbox" id="toggle-ref-fireteam" checked onchange="evaluateReferenceVisibilities()"> Fireteam Upgrades Reference</label>
+            </div>
+			<div class="radio-group" style="margin-bottom:4px;">
+                <label><input type="checkbox" id="toggle-ref-command" checked onchange="evaluateReferenceVisibilities()"> Command Upgrades Reference</label>
             </div>
         </div>
     </div>
@@ -550,6 +565,10 @@ const KEYWORD_DATABASE = {
     "stoic": {
         name: "Stoic",
         desc: "The model can never be Pinned (even if caused by other keywords). If affected by an attack that has effects in addition to pinning, such as Hits caused by Frag, the additional effects still apply. Additionally, this model can never take the Crouch action."
+    },
+	"support": {
+        name: "Support",
+        desc: "FIX IN FUTURE. EMAIL IF NOT FIXED. More than half your team cannot be support Also add rules so it doesn't display when other things called display do."
     },
     "support weapon": {
         name: "Support Weapon",
@@ -1003,12 +1022,12 @@ const GRENADES_DB = [
 ];
 
 const COMMAND_UPGRADES_DB = [
-    { id: "cmd_up_perm_1die", name: "Extra Command Die (permeant every round)", points: 8 },
-    { id: "cmd_up_single_1die", name: "Extra Command Die (Single Use, declare before rolling command)", points: 1 },
-    { id: "cmd_up_single_2die", name: "Extra Two Command Die (Single Use, declare before rolling command)", points: 4 },
-    { id: "cmd_up_single_d8", name: "Extra d8 (single use, useable on any modifiable D8 dice pool)", points: 1 },
-    { id: "cmd_up_recon_roll", name: "Extra roll on the Recon table (Winner or Loser table, as appropriate)", points: 3 },
-    { id: "cmd_up_adv_recon", name: "Advanced Reconnaissance (die rolls of 4+ count as a success for the Recon test)", points: 5 }
+    { id: "cmd_up_perm_1die", name: "Extra Command Die (permanent every round)",desc:"Extra Command Die (permanent every round)" ,points: 8 },
+    { id: "cmd_up_single_1die", name: "Extra Command Die (Single Use, declare before rolling command)",desc:"Extra Command Die (Single Use, declare before rolling command)" , points: 1 },
+    { id: "cmd_up_single_2die", name: "Extra Two Command Die (Single Use, declare before rolling command)",desc:"Extra Two Command Die (Single Use, declare before rolling command)" , points: 4 },
+    { id: "cmd_up_single_d8", name: "Extra d8 (single use, useable on any modifiable D8 dice pool)",desc:"Extra d8 (single use, useable on any modifiable D8 dice pool)" , points: 1 },
+    { id: "cmd_up_recon_roll", name: "Extra roll on the Recon table (Winner or Loser table, as appropriate)",desc:"Extra roll on the Recon table (Winner or Loser table, as appropriate)" , points: 3 },
+    { id: "cmd_up_adv_recon", name: "Advanced Reconnaissance (die rolls of 4+ count as a success for the Recon test)",desc:"Advanced Reconnaissance (die rolls of 4+ count as a success for the Recon test)" , points: 5 }
 ];
 
 let activeRoster = [];
@@ -1024,11 +1043,46 @@ window.onload = function() {
 };
 
 function checkSpecialOrderRequirement() {
+    let warningMessages = [];
+
+    // --- CONDITION 1: Special Orders Check ---
     if (document.querySelectorAll(".order-cb:checked").length < 1) {
-        alert("Deployment Halted: You require at least one chosen Special Order to export or print this tactical roster.");
-        return false;
+        warningMessages.push("• You have no Special Orders chosen. Minimum required is one.");
     }
-    return true;
+
+    // --- CONDITION 2: Strict "Support" Keyword Limit Check ---
+    let totalModels = activeRoster.length;
+    
+    if (totalModels > 0) {
+        // More than half the team rounded down means: Math.floor(Total / 2)
+        let maxAllowedSupport = Math.floor(totalModels / 2);
+        let supportCount = 0;
+
+        activeRoster.forEach(unit => {
+            // Regex \b ensures we match the standalone word "Support" 
+            // and completely ignores strings like "Support Weapon"
+            if (/\bsupport\b/i.test(unit.template.keywords)) {
+                supportCount++;
+            }
+        });
+
+        if (supportCount > maxAllowedSupport) {
+            warningMessages.push(`• Too many Support units fielded (You have ${supportCount}). Only ${maxAllowedSupport} are allowed for a team of ${totalModels} models).`);
+        }
+    }
+
+    // --- EVALUATION ENGINE ---
+    // If any warnings are present, the popup will explicitly print ONLY the active issues
+    if (warningMessages.length > 0) {
+        const promptMessage = "Warning: Your roster has the following issues:\n\n" + 
+                              warningMessages.join("\n") + 
+                              "\n\nWould you like to ignore these restrictions and proceed anyway?";
+        
+        const ignoreCheck = confirm(promptMessage);
+        return ignoreCheck; // Returns true (Ignore / Yes) or false (Cancel / No)
+    }
+
+    return true; // Clear layout: no active issues found!
 }
 
 function triggerCleanViewValidation() { if (checkSpecialOrderRequirement()) { toggleCleanView(); } }
@@ -1060,6 +1114,7 @@ function updateFactionConfig() {
     const firstRadio = document.querySelector(currentFaction === "UNSC" ? '#unsc-detachments input' : '#banished-detachments input');
     if (firstRadio) firstRadio.checked = true;
     activeRoster = [];
+	document.getElementById("active-detachment-top").textContent = firstRadio ? "Detachment: " + firstRadio.value : "";
     renderFactionSpecialOrders();
     handleDetachmentChange();
 }
@@ -1067,18 +1122,20 @@ function updateFactionConfig() {
 function handleDetachmentChange() {
     const checked = document.querySelector('input[name="detachment-group"]:checked');
     activeDetachment = checked ? checked.value : "";
+	document.getElementById("active-detachment-top").textContent = "Detachment: " + activeDetachment;
     applyDynamicTheme();
     renderFactionSpecialOrders(); 
     repopulateUnitDropdown();
     
     // Evaluate if Fireteam options should display inside system export panel
     const toggleWrapper = document.getElementById("fireteam-toggle-wrapper");
-    if (activeDetachment === "UNSC ODST CORPS" || activeDetachment === "Jiralhanae Hunting Party") {
-        toggleWrapper.style.display = "block";
-    } else {
-        toggleWrapper.style.display = "none";
-        document.getElementById("toggle-ref-fireteam").checked = false;
-    }
+// Modified to include Base detachments so it's always true for your current options
+if (true) { 
+    toggleWrapper.style.display = "block";
+} else {
+    toggleWrapper.style.display = "none";
+    document.getElementById("toggle-ref-fireteam").checked = false;
+}
     evaluateReferenceVisibilities();
 
     activeRoster = activeRoster.filter(unit => {
@@ -1095,6 +1152,10 @@ function handleBtbToggle() {
     // Re-render components to refresh choice lists against the updated cap allowance rules
     renderRoster();
 }
+function handleCommandUpgradeChange() {
+    calculateTotalPoints();
+    updateCommandGlossary();
+}
 
 /* Centralized visibility state manager engine for bottom card reference layouts */
 function evaluateReferenceVisibilities() {
@@ -1102,11 +1163,15 @@ function evaluateReferenceVisibilities() {
     const showUtility = document.getElementById("toggle-ref-utility").checked;
     const showOrders = document.getElementById("toggle-ref-orders").checked;
     const showFireteam = document.getElementById("toggle-ref-fireteam").checked;
+    // INSERT HOOK HERE
+    const showCommand = document.getElementById("toggle-ref-command").checked;
 
     document.getElementById("glossary-section").classList.toggle("hidden-reference", !showKeywords);
     document.getElementById("utility-glossary-section").classList.toggle("hidden-reference", !showUtility);
     document.getElementById("special-orders-display-section").classList.toggle("hidden-reference", !showOrders);
     document.getElementById("fireteam-upgrades-display-section").classList.toggle("hidden-reference", !showFireteam);
+    // INSERT MAPPING ACTION HERE
+    document.getElementById("command-upgrades-display-section").classList.toggle("hidden-reference", !showCommand);
 }
 
 function getEffectiveUnitCost(unitTemplate, detachmentName) {
@@ -1169,14 +1234,14 @@ function renderFactionSpecialOrders() {
             <div style="font-size: 0.75rem; opacity: 0.75; padding-left: 34px; margin-top: 2px; font-style: italic;">
                 Restriction: ${o.restriction}
             </div>
-            <div class="print-show" id="p-show-${o.id}" style="display:none;">✓ Special Order: ${o.name} (${o.points} pts)</div>
+            <div class="print-show" id="p-show-${o.id}" style="display:none;">
         </div>`).join('');
 
     const cmdContainer = document.getElementById("command-upgrades-container");
     cmdContainer.innerHTML = COMMAND_UPGRADES_DB.map(u => `
         <div class="radio-group">
-            <label><input type="checkbox" class="upgrade-cb" value="${u.id}" data-cost="${u.points}" onchange="calculateTotalPoints()"> <strong>${u.name}</strong> (+${u.points}p)</label>
-            <div class="print-show" id="p-show-${u.id}" style="display:none;">✓ Command Upgrade: ${u.name} (${u.points} pts)</div>
+            <label><input type="checkbox" class="upgrade-cb" value="${u.id}" data-cost="${u.points}" data-rawname="${u.name}" onchange="handleCommandUpgradeChange()"> <strong>${u.name}</strong> (+${u.points}p)</label>
+            <div class="print-show" id="p-show-${u.id}" style="display:none;">
         </div>`).join('');
 
     const ftSection = document.getElementById("fireteam-upgrades-section");
@@ -1192,7 +1257,7 @@ function renderFactionSpecialOrders() {
                     <input type="checkbox" class="ft-upgrade-cb" value="${up.id}" data-cost="${up.points}" data-rawname="${up.name}" onchange="handleFireteamChange()"> 
                     <strong>${up.name}</strong> (+${up.points}p)
                 </label>
-                <div class="print-show" id="p-show-${up.id}" style="display:none;">✓ Detachment Upgrade: ${up.name} (${up.points} pts)</div>
+                <div class="print-show" id="p-show-${up.id}" style="display:none;">
             </div>`).join('');
     } else {
         ftSection.style.display = "none";
@@ -1231,16 +1296,22 @@ function addUnitToRoster() {
         u.template.isSpartan && u.template.keywords.includes("Tactician")
     );
 
-    // 1. If trying to deploy an ODST Captain, block it if a Tactician Spartan is already fielded
+    // 1a. If trying to deploy an ODST Captain, block it if a Tactician Spartan is already fielded
     if (template.isOdstCaptain && hasTacticianSpartan) { 
         showUnitError("Tactical Lockout: Cannot use ODST Captain alongside Spartans with the Tactician keyword."); 
         return; 
     }
     
-    // 2. If trying to deploy a Spartan with Tactician, block it if an ODST Captain is already fielded
+    // 1b. If trying to deploy a Spartan with Tactician, block it if an ODST Captain is already fielded
     if (template.isSpartan && template.keywords.includes("Tactician") && hasOdstCapt) { 
         showUnitError("Tactical Lockout: Cannot deploy a Tactician Spartan alongside an ODST Captain."); 
         return; 
+    }
+	// 2. Only 1 of each legend and only two of other models
+	    if (template.isLegend) {
+        if (activeRoster.some(u => u.template.id === id)) { showUnitError("Unique Legend Limit Reached! (only 1 each)"); return; }
+    } else {
+        if (activeRoster.filter(u => u.template.id === id).length >= 2) { showUnitError("Duplicate Limit Reached (Max 2 of exact same Unit)."); return; }
     }
     document.getElementById("unit-error").style.display = "none";
     activeRoster.push(createNewInstance(template));
@@ -1606,6 +1677,7 @@ function generateGlobalGlossary() {
     updateUtilityGlossary();
     updateOrdersGlossary();
     updateFireteamGlossary();
+	updateCommandGlossary();
 }
 
 function updateUtilityGlossary() {
@@ -1690,6 +1762,33 @@ function updateFireteamGlossary() {
         ftGlossaryContainer.innerHTML = `<p style='font-style: italic; opacity:0.7;'>DETACHMENTS ONLY: No Fireteam Upgrades have been selected. </p>`;
     } else {
         ftGlossaryContainer.innerHTML = ftGlossaryHTML;
+    }
+}
+
+function updateCommandGlossary() {
+    const cmdGlossaryContainer = document.getElementById("command-glossary-container");
+    if (!cmdGlossaryContainer) return;
+
+    let cmdGlossaryHTML = "";
+    let activeCheckedCmdElements = document.querySelectorAll(".upgrade-cb:checked");
+
+    activeCheckedCmdElements.forEach(cb => {
+        const rawTargetName = cb.getAttribute("data-rawname");
+        const matchingCmdObj = COMMAND_UPGRADES_DB.find(u => u.name === rawTargetName);
+        if (matchingCmdObj) {
+            cmdGlossaryHTML += `
+                <div class="keyword-block" style="border-color: #9c27b0;">
+                    <span class="keyword-title" style="color: #9c27b0;">${matchingCmdObj.name}</span>
+                    <span class="keyword-desc-text" style="font-size:0.85rem; opacity:0.95;"></span>
+                </div>
+            `;
+        }
+    });
+
+    if (cmdGlossaryHTML === "") {
+        cmdGlossaryContainer.innerHTML = `<p style='font-style: italic; opacity:0.7;'>No General Command Upgrades have been selected inside tactical pool.</p>`;
+    } else {
+        cmdGlossaryContainer.innerHTML = cmdGlossaryHTML;
     }
 }
 
@@ -1823,6 +1922,7 @@ function loadList() {
 
                 renderRoster();
                 calculateTotalPoints();
+				updateCommandGlossary();
                 evaluateReferenceVisibilities();
             } catch (err) {
                 alert("Error reading tactical data package file: " + err);
@@ -1864,6 +1964,7 @@ function exportPdf() {
     doc.setTextColor(0, 188, 212); 
     doc.text("HALO FLASHPOINT", margin, y);
 
+    // DRAW POINTS BOX (Far Right Corner)
     const overallScore = document.getElementById("running-total-top").textContent;
     doc.setFillColor(0, 188, 212);
     doc.roundedRect(margin + width - 110, y - 13, 110, 22, 4, 4, "F");
@@ -1872,11 +1973,25 @@ function exportPdf() {
     doc.setTextColor(15, 29, 42); 
     doc.text(`Total: ${overallScore} pts`, margin + width - 95, y + 2);
 
-    y += 10;
+    // NEW: DRAW DETACHMENT BADGE (Left Side, right below the Title)
+    y += 18;
+    doc.setFillColor(0, 188, 212);
+    // Dynamically calculate badge width based on text length so it formats beautifully
+    const detachmentText = "Detachment: " + activeDetachment;
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10);
+    const badgeWidth = doc.getTextWidth(detachmentText) + 16; 
+    
+    doc.roundedRect(margin, y - 10, badgeWidth, 16, 3, 3, "F");
+    doc.setTextColor(15, 29, 42); // Match dark screen text theme color inside badge
+    doc.text(detachmentText, margin + 8, y + 2);
+
+    // PUSH SYSTEM METADATA BELOW THE BADGE
+    y += 16;
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9.6);
     doc.setTextColor(120, 120, 120);
-    doc.text("V1.1 - Updated to Noble Team (July 2026)", margin, y);
+    doc.text("V1.2 - Updated to Noble Team (July 2026)", margin, y);
 
     y += 8;
     doc.setDrawColor(0, 188, 212);
@@ -2090,6 +2205,10 @@ doc.text(`Keywords: ${pdfKeywords}`, insideX + 8, insideY + 4);
     if (document.getElementById("toggle-ref-fireteam").checked && 
        (activeDetachment === "UNSC ODST CORPS" || activeDetachment === "Jiralhanae Hunting Party")) {
         appendGlossaryToPdf("FIRETEAM UPGRADES REFERENCE", "#fireteam-glossary-container");
+    }
+	
+	if (document.getElementById("toggle-ref-command").checked) {
+        appendGlossaryToPdf("COMMAND UPGRADES REFERENCE", "#command-glossary-container");
     }
 
     const fileSlug = (activeDetachment || "tactical_roster").toLowerCase().replace(/\s+/g, "_");
