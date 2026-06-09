@@ -23,7 +23,7 @@ This is a fan-made community tool and is not affiliated with Microsoft, Mantic G
 
 ++ChangeLog++
 
-V1.1 8-6-2026
+V1.1-   8-6-2026
 
 UI & Layout
 
@@ -50,7 +50,7 @@ Unit Profile Fixes
 * Chosen Warrior: Added Guarded keyword and default Spike Grenade.
 * Jiralhanae Warrior: Added default Spike Grenade.
 
-v1.2 9-6-2026
+v1.2-   9-6-2026
 
 * Moved the 'Back To Editor' button from the bottom right to the top right.
 * Removed the tickbox selections displaying text when selected in section 2.
