@@ -63,21 +63,21 @@ v1.2-   9-6-2026
 
 Changelog v1.3  14-06-2026
 
-New Content (99 pts placeholders): Added Target Acquired, Unggoy Plasma Assault, Hand Of Atriox (Special Orders), and the Sangheili Enforcer unit.
-ID Maintenance: Cleaned up various underlying Unit IDs.
-New List Validation Requirements
-The validation engine now strictly checks for the following dependencies before clearing a list:
-Spartan Requirements: Return to Sender and Snapshot require a Spartan unit (sp in ID).
-Legend Restrictions:
-Your Orders Have Changed requires Veronica Dare.
- One Man Army requires Master Chief.
-Lone Wolf requires Noble Six.
-Defiance requires Atriox.
-Hand Of Atriox requires Jega, Hyperius, or Tovarus.
-Faction / Unit Types:
-Hot Drop requires an ODST unit (odst in ID).
-Holograms requires a Noble Team member (noble in ID).
-Rampage requires a Jiralhanae unit (bru in ID).
-Reinforcements Incoming requires a Sangheili unit (elite in ID).
-Unggoy Plasma Grenade Assault! requires a Grunt unit (grunt in ID).
-Keyword Matching: Target Acquired requires a model with the exact standalone Support keyword (isolated via raw regex from Support Weapons).
+* New Content (99 pts placeholders): Added Target Acquired, Unggoy Plasma Assault, Hand Of Atriox (Special Orders), and the Sangheili Enforcer unit.
+* ID Maintenance: Cleaned up various underlying Unit IDs.
+* New List Validation Requirements
+* The validation engine now strictly checks for the following dependencies before clearing a list:
+* Spartan Requirements: Return to Sender and Snapshot require a Spartan unit (sp in ID).
+* Legend Restrictions:
+* Your Orders Have Changed requires Veronica Dare.
+* One Man Army requires Master Chief.
+* Lone Wolf requires Noble Six.
+* Defiance requires Atriox.
+* Hand Of Atriox requires Jega, Hyperius, or Tovarus.
+* Faction / Unit Types:
+* Hot Drop requires an ODST unit (odst in ID).
+* Holograms requires a Noble Team member (noble in ID).
+* Rampage requires a Jiralhanae unit (bru in ID).
+* Reinforcements Incoming requires a Sangheili unit (elite in ID).
+* Unggoy Plasma Grenade Assault! requires a Grunt unit (grunt in ID).
+* Keyword Matching: Target Acquired requires a model with the exact standalone Support keyword (isolated via raw regex from Support Weapons).
