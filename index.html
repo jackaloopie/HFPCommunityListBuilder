@@ -235,7 +235,7 @@ body.clean-view #exit-clean-btn {
     <header>
         <div>
             <h1>Halo Flashpoint Community List Builder</h1>
-            <div style="font-size: 0.8rem; opacity: 0.8;">V1.2 - Updated to Noble Team (July 2026). Email jackaloopie@gmail.com for updates, issues, or suggestions. </div>
+            <div style="font-size: 0.8rem; opacity: 0.8;">V1.3 - Updated to Noble Team (July 2026). Email jackaloopie@gmail.com for updates, issues, or suggestions. </div>
         </div>
         <div style="display: flex; gap: 8px; align-items: center;">
             <div class="global-points">Total: <span id="running-total-top">0</span> pts</div>
@@ -405,6 +405,10 @@ const KEYWORD_DATABASE = {
     "blast": {
         name: "Blast",
         desc: "Before the damage and other effects of this weapon have been resolved, the models in all cubes adjacent to the explosion (in all directions) have 1 Energy Shield depleted."
+    },
+	"comms relay": {
+        name: "Comms Relay",
+        desc: "A model with this Keyword generates a free Special Order token (any) at the start of any Round if it is on the board. This can be spent during any activation by a friendly non-Legend model to trigger a friendly Special Order. At the end of the Round, any unspent tokens are removed."
     },
     "concussive": {
         name: "Concussive",
@@ -752,7 +756,7 @@ const DETACHMENT_POINT_OVERRIDES = {
         "unsc_odst_spt_br": 24
     },
     "Jiralhanae Hunting Party": {
-        "ban_bru_atriox": 75,
+        "ban_bru_atriox_legend": 75,
         "ban_bru_bers_spk": 32,
         "ban_bru_bers_dyn": 32,
         "ban_bru_capt_hyd": 50,
@@ -765,7 +769,7 @@ const DETACHMENT_POINT_OVERRIDES = {
 };
 
 const UNIT_DATABASE = [
-    { id: "ban_bru_atriox", faction: "Banished", detachments: ["Jiralhanae Hunting Party"], name: "Atriox, Jiralhanae Warmaster (Legend)", points: 86, keywords: "High Value Target (HVT), Fearless, Imposing, Unstoppable, Tactician (2), Energy Shield (2)", ra: "5+", fi: "3+", sv: "4+", sp: "1-2", sh: "2", ar: "1", hp: "8", base: "50mm", defaultWeapons: ["Chainbreaker", "Power Gauntlet"], isLegend: true },
+    { id: "ban_bru_atriox_legend", faction: "Banished", detachments: ["Jiralhanae Hunting Party"], name: "Atriox, Jiralhanae Warmaster (Legend)", points: 86, keywords: "High Value Target (HVT), Fearless, Imposing, Unstoppable, Tactician (2), Energy Shield (2)", ra: "5+", fi: "3+", sv: "4+", sp: "1-2", sh: "2", ar: "1", hp: "8", base: "50mm", defaultWeapons: ["Chainbreaker", "Power Gauntlet"], isLegend: true },
     { id: "ban_bru_bers_dyn", faction: "Banished", detachments: ["Jiralhanae Hunting Party"], name: "Jiralhanae Berserker (Dynamo Grenade)", points: 32, keywords: "Imposing", ra: "6+", fi: "4+", sv: "6+", sp: "1-3", sh: "0", ar: "1", hp: "6", base: "40mm", defaultWeapons: ["Wrist Blades", "Dynamo Grenade"] },
     { id: "ban_bru_bers_spk", faction: "Banished", detachments: ["Jiralhanae Hunting Party"], name: "Jiralhanae Berserker (Spike Grenade)", points: 34, keywords: "Imposing, Energy Shield (1)", ra: "6+", fi: "4+", sv: "6+", sp: "1-3", sh: "1", ar: "1", hp: "6", base: "40mm", defaultWeapons: ["Wrist Blades", "Spike Grenade"] },
     { id: "ban_bru_capt_hyd", faction: "Banished", detachments: ["Jiralhanae Hunting Party"], name: "Jiralhanae Captain (Hydra)", points: 55, keywords: "Tactician (1), Jump Pack, Imposing, Energy Shield (2)", ra: "4+", fi: "4+", sv: "5+", sp: "1-3", sh: "2", ar: "2", hp: "6", base: "40mm", defaultWeapons: ["MLRS-2 Hydra", "Jiralhanae Fists"] },
@@ -774,12 +778,13 @@ const UNIT_DATABASE = [
     { id: "ban_bru_snip_shk", faction: "Banished", detachments: ["Jiralhanae Hunting Party"], name: "Jiralhanae Sniper (Shock Rifle)", points: 35, keywords: "Imposing, Energy Shield (2)", ra: "4+", fi: "5+", sv: "5+", sp: "1-2", sh: "2", ar: "0", hp: "5", base: "40mm", defaultWeapons: ["Shock Rifle", "Disruptor", "Jiralhanae Fists"] },
     { id: "ban_bru_snip_skw", faction: "Banished", detachments: ["Jiralhanae Hunting Party"], name: "Jiralhanae Sniper (Skewer)", points: 42, keywords: "Imposing, Energy Shield (2)", ra: "4+", fi: "5+", sv: "5+", sp: "1-2", sh: "2", ar: "0", hp: "5", base: "40mm", defaultWeapons: ["Skewer", "Mangler"] },
     { id: "ban_bru_war_vk78", faction: "Banished", detachments: ["Jiralhanae Hunting Party"], name: "Jiralhanae Warrior (Commando)", points: 32, keywords: "Imposing", ra: "5+", fi: "4+", sv: "5+", sp: "1-2", sh: "0", ar: "1", hp: "5", base: "40mm", defaultWeapons: ["VK78 Commando", "Jiralhanae Fists", "Spike Grenade"] },
-    { id: "ban_elite_cnc", faction: "Banished", detachments: [], name: "Elite Mercenary (Concussion)", points: 45, keywords: "Evade, Energy Shield (3)", ra: "4+", fi: "4+", sv: "4+", sp: "2-3", sh: "3", ar: "1", hp: "3", base: "32mm", defaultWeapons: ["Concussion Rifle", "Plasma Grenade", "Sangheili Fists"] },
-    { id: "ban_elite_ndl", faction: "Banished", detachments: [], name: "Elite Mercenary (Needler)", points: 42, keywords: "Evade, Energy Shield (3)", ra: "4+", fi: "4+", sv: "4+", sp: "2-3", sh: "3", ar: "1", hp: "3", base: "32mm", defaultWeapons: ["Needler", "Plasma Grenade", "Sangheili Fists"] },
-    { id: "ban_elite_pfa", faction: "Banished", detachments: [], name: "Elite Mercenary (Plasma Rifle)", points: 44, keywords: "Evade, Energy Shield (3)", ra: "4+", fi: "4+", sv: "4+", sp: "2-3", sh: "3", ar: "1", hp: "3", base: "32mm", defaultWeapons: ["Plasma Rifle", "Plasma Grenade", "Sangheili Fists"] },
-    { id: "ban_elite_puls", faction: "Banished", detachments: [], name: "Elite Mercenary (Pulse)", points: 40, keywords: "Evade, Energy Shield (3)", ra: "4+", fi: "4+", sv: "4+", sp: "2-3", sh: "3", ar: "1", hp: "3", base: "32mm", defaultWeapons: ["Pulse Carbine", "Plasma Grenade", "Sangheili Fists"] },
-    { id: "ban_elite_swd", faction: "Banished", detachments: [], name: "Elite Mercenary (Sword)", points: 47, keywords: "Evade, Energy Shield (3)", ra: "4+", fi: "4+", sv: "4+", sp: "2-3", sh: "3", ar: "1", hp: "3", base: "32mm", defaultWeapons: ["Energy Sword", "Plasma Grenade"] },
-    { id: "unsc_odst_bf_ma", faction: "UNSC", detachments: ["UNSC ODST CORPS"], name: "ODST Air Assault \"Bullfrog\" (MA40)", points: 26, keywords: "Acrobatic, Jump Pack", ra: "5+", fi: "4+", sv: "5+", sp: "1-3", sh: "None", ar: "1", hp: "3", base: "25mm", defaultWeapons: ["MA40 Assault Rifle", "Combat Knife"] },
+    { id: "ban_elite_merc_cnc", faction: "Banished", detachments: [], name: "Elite Mercenary (Concussion)", points: 45, keywords: "Evade, Energy Shield (3)", ra: "4+", fi: "4+", sv: "4+", sp: "2-3", sh: "3", ar: "1", hp: "3", base: "32mm", defaultWeapons: ["Concussion Rifle", "Plasma Grenade", "Sangheili Fists"] },
+    { id: "ban_elite_merc_ndl", faction: "Banished", detachments: [], name: "Elite Mercenary (Needler)", points: 42, keywords: "Evade, Energy Shield (3)", ra: "4+", fi: "4+", sv: "4+", sp: "2-3", sh: "3", ar: "1", hp: "3", base: "32mm", defaultWeapons: ["Needler", "Plasma Grenade", "Sangheili Fists"] },
+    { id: "ban_elite_merc_pfa", faction: "Banished", detachments: [], name: "Elite Mercenary (Plasma Rifle)", points: 44, keywords: "Evade, Energy Shield (3)", ra: "4+", fi: "4+", sv: "4+", sp: "2-3", sh: "3", ar: "1", hp: "3", base: "32mm", defaultWeapons: ["Plasma Rifle", "Plasma Grenade", "Sangheili Fists"] },
+    { id: "ban_elite_merc_puls", faction: "Banished", detachments: [], name: "Elite Mercenary (Pulse)", points: 40, keywords: "Evade, Energy Shield (3)", ra: "4+", fi: "4+", sv: "4+", sp: "2-3", sh: "3", ar: "1", hp: "3", base: "32mm", defaultWeapons: ["Pulse Carbine", "Plasma Grenade", "Sangheili Fists"] },
+    { id: "ban_elite_merc_swd", faction: "Banished", detachments: [], name: "Elite Mercenary (Sword)", points: 47, keywords: "Evade, Energy Shield (3)", ra: "4+", fi: "4+", sv: "4+", sp: "2-3", sh: "3", ar: "1", hp: "3", base: "32mm", defaultWeapons: ["Energy Sword", "Plasma Grenade"] },
+    { id: "ban_elite_enfor_shk", faction: "Banished", detachments: [], name: "Elite Enforcer (Shock)", points: 99, keywords: "Evade, Energy Shield (4), Tactician (1)", ra: "4+",  fi: "4+", sv: "4+", sp: "2-3", sh: "4", ar: "1", hp: "4", base: "32mm", defaultWeapons: ["Sangheili Fists", "Shock Rifle", "Plasma Grenade"] },
+	{ id: "unsc_odst_bf_ma", faction: "UNSC", detachments: ["UNSC ODST CORPS"], name: "ODST Air Assault \"Bullfrog\" (MA40)", points: 26, keywords: "Acrobatic, Jump Pack", ra: "5+", fi: "4+", sv: "5+", sp: "1-3", sh: "None", ar: "1", hp: "3", base: "25mm", defaultWeapons: ["MA40 Assault Rifle", "Combat Knife"] },
     { id: "unsc_odst_bf_smg", faction: "UNSC", detachments: ["UNSC ODST CORPS"], name: "ODST Air Assault \"Bullfrog\" (M7S SMG)", points: 29, keywords: "Acrobatic, Jump Pack", ra: "5+", fi: "4+", sv: "5+", sp: "1-3", sh: "None", ar: "1", hp: "3", base: "25mm", defaultWeapons: ["M7S SMG", "Combat Knife"] },
     { id: "unsc_odst_cpt", faction: "UNSC", detachments: ["UNSC ODST CORPS"], name: "ODST Captain (M6C/SOCOM)", points: 35, keywords: "Tactician (2)", ra: "4+", fi: "4+", sv: "5+", sp: "1-2", sh: "None", ar: "1", hp: "3", base: "25mm", defaultWeapons: ["M6C/SOCOM", "Human Fists"], isOdstCaptain: true },
     { id: "unsc_odst_buck_legend", faction: "UNSC", detachments: ["UNSC ODST CORPS"], name: "ODST Gunnery Sergeant Buck (Legend)", points: 48, keywords: "Fast Transition, Scout, Tactician (1)", ra: "3+", fi: "4+", sv: "4+", sp: "1-2", sh: "None", ar: "1", hp: "3", base: "27mm", defaultWeapons: ["MA5D Assault Rifle", "M6H2 Magnum", "Combat Knife"], isLegend: true },
@@ -789,8 +794,8 @@ const UNIT_DATABASE = [
     { id: "unsc_odst_spt_br", faction: "UNSC", detachments: ["UNSC ODST CORPS"], name: "ODST Special Purpose Trooper (BR55)", points: 25, keywords: "Scout", ra: "4+", fi: "5+", sv: "5+", sp: "1-2", sh: "None", ar: "1", hp: "3", base: "25mm", defaultWeapons: ["BR55 Battle Rifle", "Human Fists"] },
     { id: "unsc_odst_spt_dmr", faction: "UNSC", detachments: ["UNSC ODST CORPS"], name: "ODST Special Purpose Trooper (DMR)", points: 23, keywords: "Scout", ra: "4+", fi: "5+", sv: "5+", sp: "1-2", sh: "None", ar: "1", hp: "3", base: "25mm", defaultWeapons: ["M392 DMR", "Human Fists"] },
     { id: "unsc_odst_spt_puls", faction: "UNSC", detachments: ["UNSC ODST CORPS"], name: "ODST Special Purpose Trooper (Pulse)", points: 23, keywords: "Scout", ra: "4+", fi: "5+", sv: "5+", sp: "1-2", sh: "None", ar: "1", hp: "3", base: "25mm", defaultWeapons: ["Pulse Carbine", "Human Fists"] },
-    { id: "unsc_oni_dare", faction: "UNSC", detachments: [], name: "ONI Captain Veronica Dare (Legend)", points: 40, keywords: "Stealthy, Tactician (2)", ra: "4+", fi: "6+", sv: "5+", sp: "1-2", sh: "None", ar: "1", hp: "3", base: "27mm", defaultWeapons: ["M6C/SOCOM", "Human Fists"], isLegend: true },
-    { id: "unsc_sp_chief", faction: "UNSC", detachments: [], name: "Master Chief S-117 (Legend)", points: 90, keywords: "High Value Target (HVT), Stoic, Tactician (3), Energy Shield (3)", ra: "3+", fi: "3+", sv: "3+", sp: "2-3", sh: "3", ar: "2", hp: "5", base: "28mm", defaultWeapons: ["Energy Sword"], isLegend: true, isSpartan: true },
+    { id: "unsc_oni_dare_legend", faction: "UNSC", detachments: [], name: "ONI Captain Veronica Dare (Legend)", points: 40, keywords: "Stealthy, Tactician (2)", ra: "4+", fi: "6+", sv: "5+", sp: "1-2", sh: "None", ar: "1", hp: "3", base: "27mm", defaultWeapons: ["M6C/SOCOM", "Human Fists"], isLegend: true },
+    { id: "unsc_sp_chief_legend", faction: "UNSC", detachments: [], name: "Master Chief S-117 (Legend)", points: 90, keywords: "High Value Target (HVT), Stoic, Tactician (3), Energy Shield (3)", ra: "3+", fi: "3+", sv: "3+", sp: "2-3", sh: "3", ar: "2", hp: "5", base: "28mm", defaultWeapons: ["Energy Sword"], isLegend: true, isSpartan: true },
     { id: "unsc_sp_brl_ndl", faction: "UNSC", detachments: [], name: "Spartan Brawler (Needler)", points: 38, keywords: "Energy Shield (2)", ra: "5+", fi: "3+", sv: "5+", sp: "2-3", sh: "2", ar: "2", hp: "4", base: "32mm", defaultWeapons: ["Needler", "Spartan Fists"], isSpartan: true },
     { id: "unsc_sp_brl_bull", faction: "UNSC", detachments: [], name: "Spartan Brawler (Bulldog)", points: 37, keywords: "Energy Shield (2)", ra: "5+", fi: "3+", sv: "5+", sp: "2-3", sh: "2", ar: "2", hp: "4", base: "32mm", defaultWeapons: ["CQS48 Bulldog", "Spartan Fists"], isSpartan: true },
     { id: "unsc_sp_cqb_ham", faction: "UNSC", detachments: [], name: "Spartan CQB (Gravity Hammer)", points: 48, keywords: "Imposing, Energy Shield (2)", ra: "5+", fi: "4+", sv: "6+", sp: "1-3", sh: "2", ar: "3", hp: "5", base: "32mm", defaultWeapons: ["Gravity Hammer", "Spartan Fists"], isSpartan: true },
@@ -807,12 +812,12 @@ const UNIT_DATABASE = [
     { id: "unsc_sp_jfo_loc", faction: "UNSC", detachments: [], name: "Spartan JFO (H-165 Target Locator)", points: 43, keywords: "Scout, Tactician (1), Energy Shield (2)", ra: "5+", fi: "5+", sv: "5+", sp: "2-3", sh: "2", ar: "3", hp: "4", base: "32mm", defaultWeapons: ["H-165 Target Locator", "Spartan Fists"], isSpartan: true },
     { id: "unsc_sp_mkvii_ma40", faction: "UNSC", detachments: [], name: "Spartan MKVII (MA40)", points: 45, keywords: "Tactician (1), Energy Shield (2)", ra: "4+", fi: "4+", sv: "5+", sp: "2-3", sh: "2", ar: "2", hp: "4", base: "32mm", defaultWeapons: ["MA40 Assault Rifle", "Spartan Fists"], isSpartan: true },
     { id: "unsc_sp_mkvii_puls", faction: "UNSC", detachments: [], name: "Spartan MKVII (Pulse)", points: 40, keywords: "Tactician (1), Energy Shield (2)", ra: "4+", fi: "4+", sv: "5+", sp: "2-3", sh: "2", ar: "2", hp: "4", base: "32mm", defaultWeapons: ["Pulse Carbine", "Spartan Fists"], isSpartan: true },
-    { id: "unsc_sp_noble_carter", faction: "UNSC", detachments: [], name: "Carter-A259 Noble One (Legend)", points: 61, keywords: "Energy Shield (2), Scout, Tactician (2)", ra: "4+", fi: "4+", sv: "5+", sp: "2-3", sh: "2", ar: "2", hp: "4", base: "32mm", defaultWeapons: ["M392 DMR", "M6G Magnum", "M11 Combat Knife"], isLegend: true, isSpartan: true },
-    { id: "unsc_sp_noble_emile", faction: "UNSC", detachments: [], name: "Emile-A239 Noble Four (Legend)", points: 52, keywords: "Acrobatic, Energy Shield (2), Imposing", ra: "5+", fi: "3+", sv: "5+", sp: "2-3", sh: "2", ar: "2", hp: "4", base: "32mm", defaultWeapons: ["Kukri Blade", "M45 Shotgun", "Fragmentation Grenade"], isLegend: true, isSpartan: true },
-    { id: "unsc_sp_noble_jorge", faction: "UNSC", detachments: [], name: "Jorge-052 Noble Five (Legend)", points: 70, keywords: "Energy Shield (3), High Value Target (HVT), Stoic, Tactician (1)", ra: "4+", fi: "4+", sv: "4+", sp: "2-3", sh: "2", ar: "2", hp: "6", base: "40mm", defaultWeapons: ["M247H HMG", "Spartan Fists"], isLegend: true, isSpartan: true },
-    { id: "unsc_sp_noble_jun", faction: "UNSC", detachments: [], name: "Jun-A266 Noble Three (Legend)", points: 48, keywords: "Energy Shield (2), Scout, Stealthy", ra: "3+", fi: "5+", sv: "4+", sp: "2-3", sh: "2", ar: "2", hp: "4", base: "32mm", defaultWeapons: ["SRS-99 Sniper Rifle", "M11 Combat Knife"], isLegend: true, isSpartan: true },
-    { id: "unsc_sp_noble_kat", faction: "UNSC", detachments: [], name: "Kat-B320 Noble Two (Legend)", points: 58, keywords: "Counter Intelligence, Energy Shield (2), Fast Transition, Tactician (1)", ra: "4+", fi: "4+", sv: "5+", sp: "2-3", sh: "2", ar: "2", hp: "4", base: "32mm", defaultWeapons: ["Robotic Arm", "M6 Modified", "M6G Magnum"], isLegend: true, isSpartan: true },
-    { id: "unsc_sp_noble_six", faction: "UNSC", detachments: [], name: "Spartan-B312 Noble Six (Legend)", points: 60, keywords: "Acrobatic, Counter Intelligence, Energy Shield (2), Stealthy", ra: "4+", fi: "4+", sv: "5+", sp: "2-3", sh: "2", ar: "2", hp: "4", base: "32mm", defaultWeapons: ["M6 Spartan Laser", "M6G Magnum", "Spartan Fists"], isLegend: true, isSpartan: true },
+    { id: "unsc_sp_noble_carter_legend", faction: "UNSC", detachments: [], name: "Carter-A259 Noble One (Legend)", points: 61, keywords: "Energy Shield (2), Scout, Tactician (2)", ra: "4+", fi: "4+", sv: "5+", sp: "2-3", sh: "2", ar: "2", hp: "4", base: "32mm", defaultWeapons: ["M392 DMR", "M6G Magnum", "M11 Combat Knife"], isLegend: true, isSpartan: true },
+    { id: "unsc_sp_noble_emile_legend", faction: "UNSC", detachments: [], name: "Emile-A239 Noble Four (Legend)", points: 52, keywords: "Acrobatic, Energy Shield (2), Imposing", ra: "5+", fi: "3+", sv: "5+", sp: "2-3", sh: "2", ar: "2", hp: "4", base: "32mm", defaultWeapons: ["Kukri Blade", "M45 Shotgun", "Fragmentation Grenade"], isLegend: true, isSpartan: true },
+    { id: "unsc_sp_noble_jorge_legend", faction: "UNSC", detachments: [], name: "Jorge-052 Noble Five (Legend)", points: 70, keywords: "Energy Shield (3), High Value Target (HVT), Stoic, Tactician (1)", ra: "4+", fi: "4+", sv: "4+", sp: "2-3", sh: "2", ar: "2", hp: "6", base: "40mm", defaultWeapons: ["M247H HMG", "Spartan Fists"], isLegend: true, isSpartan: true },
+    { id: "unsc_sp_noble_jun_legend", faction: "UNSC", detachments: [], name: "Jun-A266 Noble Three (Legend)", points: 48, keywords: "Energy Shield (2), Scout, Stealthy", ra: "3+", fi: "5+", sv: "4+", sp: "2-3", sh: "2", ar: "2", hp: "4", base: "32mm", defaultWeapons: ["SRS-99 Sniper Rifle", "M11 Combat Knife"], isLegend: true, isSpartan: true },
+    { id: "unsc_sp_noble_kat_legend", faction: "UNSC", detachments: [], name: "Kat-B320 Noble Two (Legend)", points: 58, keywords: "Counter Intelligence, Energy Shield (2), Fast Transition, Tactician (1)", ra: "4+", fi: "4+", sv: "5+", sp: "2-3", sh: "2", ar: "2", hp: "4", base: "32mm", defaultWeapons: ["Robotic Arm", "M6 Modified", "M6G Magnum"], isLegend: true, isSpartan: true },
+    { id: "unsc_sp_noble_six_legend", faction: "UNSC", detachments: [], name: "Spartan-B312 Noble Six (Legend)", points: 60, keywords: "Acrobatic, Counter Intelligence, Energy Shield (2), Stealthy", ra: "4+", fi: "4+", sv: "5+", sp: "2-3", sh: "2", ar: "2", hp: "4", base: "32mm", defaultWeapons: ["M6 Spartan Laser", "M6G Magnum", "Spartan Fists"], isLegend: true, isSpartan: true },
     { id: "unsc_sp_zvez_cind", faction: "UNSC", detachments: [], name: "Spartan Zvezda (Cindershot)", points: 37, keywords: "Scout, Energy Shield (2)", ra: "4+", fi: "5+", sv: "4+", sp: "1-3", sh: "2", ar: "2", hp: "4", base: "32mm", defaultWeapons: ["Cindershot", "Spartan Fists"], isSpartan: true },
     { id: "unsc_sp_zvez_vk78", faction: "UNSC", detachments: [], name: "Spartan Zvezda (Commando)", points: 36, keywords: "Scout, Energy Shield (2)", ra: "4+", fi: "5+", sv: "4+", sp: "1-3", sh: "2", ar: "2", hp: "4", base: "32mm", defaultWeapons: ["VK78 Commando", "Spartan Fists"], isSpartan: true }
 ];
@@ -825,12 +830,19 @@ const SPECIAL_ORDERS_DB = [
         restriction: "Spartans Only",
         desc: "(Spartans Only) When a grenade lands in the same cube as a friendly Spartan, you may spend a Special Order result to allow that Spartan to attempt to catch it and throw it. It doesn’t matter if the grenade was thrown accurately or scattered into the cube. May only be used with weapons/ items called a ____ Grenade (e.g. Plasma Grenade), not any kind of grenade launcher or other weapon which shoots grenades. You must declare the use of the Special Order before your opponent resolves the effect of the grenade (rolling Frag etc.) First, roll a 3 dice Survive test (2) to catch the grenade. If you roll 1 or 0 successes, the catch failed and the grenade is resolved in the cube as normal. If you roll the 2 or more successes required, the Spartan may then throw the grenade as if making a shoot action. You resolve the grenade effects wherever it lands (it is your grenade now). When using RTS, resolve this action fully to determine where any effects of grenades happen. They will only affect the final destination of the grenade. This would include keywords like blast, sticky, EMP etc."
     },
+	{ 
+        faction: "UNSC", 
+        name: "Return to Sender", 
+        points: 3, 
+        restriction: "Spartans Only",
+        desc: "(Spartans Only) When a grenade lands in the same cube as a friendly Spartan, you may spend a Special Order result to allow that Spartan to attempt to catch it and throw it. It doesn’t matter if the grenade was thrown accurately or scattered into the cube. May only be used with weapons/ items called a ____ Grenade (e.g. Plasma Grenade), not any kind of grenade launcher or other weapon which shoots grenades. You must declare the use of the Special Order before your opponent resolves the effect of the grenade (rolling Frag etc.) First, roll a 3 dice Survive test (2) to catch the grenade. If you roll 1 or 0 successes, the catch failed and the grenade is resolved in the cube as normal. If you roll the 2 or more successes required, the Spartan may then throw the grenade as if making a shoot action. You resolve the grenade effects wherever it lands (it is your grenade now). When using RTS, resolve this action fully to determine where any effects of grenades happen. They will only affect the final destination of the grenade. This would include keywords like blast, sticky, EMP etc."
+    },
     { 
         faction: "UNSC", 
-        name: "Supply Drop", 
-        points: 3, 
-        restriction: "Any UNSC List",
-        desc: "(Any UNSC List) At the start of each round, immediately after rolling Command Dice is completed, you may spend a Special Order result to take one facedown item token from the supply pile and place it in any cube which contains no models. Do not look at the item when placing it. If the location contains a building, it must be placed on the highest level of that stack. You may spend any number of Special Order results in this way. Choose a different cube for each item placed."
+        name: "Target Acquired", 
+        points: 99, 
+        restriction: "Any UNSC List by a 'Support' unit",
+        desc: "(Support Unit Only) Spend a Special Order result after completing a Shoot action made by a friendly model with the Support keyword. Then, until the end of the Round, any Shoot actions made by a model with the Support keyword that targets the same enemy model benefit from a +1 dice modifier (this is not cumulative, and may not be used on Explosive, Incendiary, or Grenade weapons)."
     },
     { 
         faction: "UNSC", 
@@ -888,12 +900,26 @@ const SPECIAL_ORDERS_DB = [
         restriction: "Any Banished",
         desc: "(Any Banished) If there is a friendly Banished model in the same cube or an adjacent cube to the active model at the start of its activation, the active model may spend a Special Order Command Dice to then take the same short action twice during its activation. Note this isn’t allowing extra actions, it’s just removing the usual obligation to use different actions when taking two short actions in the activation."
     },
+	{ 
+        faction: "Banished", 
+        name: "Hand Of Atriox", 
+        points: 99, 
+        restriction: "Jega, Hyperius, Tovarus Only",
+        desc: "(Jega, Hyperius, Tovarus Only) Spend a Special Order result at the start of this model’s activation to 'mark' an enemy model on the board. Until the end of this model’s activation, each time this model makes a Fight or Ranged test against that enemy model, you may re-roll up to 2 dice. However, if that enemy model is alive on the board at the end of this model’s activation, you lose 1 VP (to a minimum of 0). This order may only be used by a friendly Jega, Hyperius or Tovarus."
+    },
     { 
         faction: "Banished", 
         name: "Rampage", 
         points: 3, 
         restriction: "Jiralhanae Only",
         desc: "(Jiralhanae Only) If the active Jiralhanae unit has 2 or more wounds already, they can spend a Special Order result to add 1 to their Speed stat for a Sprint action made in their activation. This movement must be used to enter a cube with an enemy model. The Jiralhanae player may reroll 1 die during the resulting Fight test."
+    },
+	{ 
+        faction: "Banished", 
+        name: "Unggoy Plasma Grenade Assault!", 
+        points: 99, 
+        restriction: "Unggoy Only",
+        desc: "(Unggoy Only) Spend a Special Order result for any Unggoy to use the following profile as a CC attack, that hits on a 4+: ##CC / AP2 - Smash, Lethal (1)## At the end of the Assault action, all models in the cube are both Pinned and scattered from the cube. The model that used this Special Order also suffers 2 wounds - Armour and Shields do not prevent this damage."
     },
     { 
         faction: "Banished", 
@@ -927,17 +953,17 @@ const SPECIAL_ORDERS_DB = [
 
 const DETACHMENT_ORDER_OVERRIDES = {
     "UNSC Base": {
-        "allowed": ["Return to Sender", "Supply Drop", "Snapshot", "Your Orders Have Changed", "Hot Drop", "One Man Army", "Lone Wolf", "Holograms"]
+        "allowed": ["Return to Sender", "Supply Drop", "Snapshot", "Your Orders Have Changed", "Hot Drop", "One Man Army", "Lone Wolf", "Holograms", "Target Acquired"]
     },
     "UNSC ODST CORPS": {
-        "allowed": ["Hot Drop", "Hold The Line Trooper"],
+        "allowed": ["Hot Drop", "Hold The Line Trooper", "Target Acquired"],
         "costs": { "Hot Drop": 5 }
     },
     "Banished Base": {
-        "allowed": ["Alliance", "Rampage", "Reinforcements Incoming", "Defiance"]
+        "allowed": ["Alliance", "Rampage", "Reinforcements Incoming", "Defiance", "Unggoy Plasma Grenade Assault!", "Hand Of Atriox"]
     },
     "Jiralhanae Hunting Party": {
-        "allowed": ["Berserk Rampage", "Aerial Deployment", "Defiance"],
+        "allowed": ["Berserk Rampage", "Aerial Deployment", "Defiance", "Hand Of Atriox"],
         "costs": { "Defiance": 3 }
     }
 };
@@ -1042,25 +1068,69 @@ window.onload = function() {
     evaluateReferenceVisibilities();
 };
 
-function checkSpecialOrderRequirement() {
+function checkListValidation() {
     let warningMessages = [];
 
-    // --- CONDITION 1: Special Orders Check ---
-    if (document.querySelectorAll(".order-cb:checked").length < 1) {
+    // --- CONDITION 1: Miniumum Special Order Check ---
+    const selectedOrders = Array.from(document.querySelectorAll(".order-cb:checked")).map(cb => cb.getAttribute("data-rawname"));
+    
+    if (selectedOrders.length < 1) {
         warningMessages.push("• You have no Special Orders chosen. Minimum required is one.");
     }
 
-    // --- CONDITION 2: Strict "Support" Keyword Limit Check ---
+     // --- CONDITION 2: Context Specific Checks ---
+    const hasUnitId = (substring) => activeRoster.some(u => u.template.id.includes(substring));
+
+    selectedOrders.forEach(order => {
+        if (order === "Return to Sender" && !hasUnitId("_sp_")) {
+            warningMessages.push("• 'Return to Sender' requires at least one Spartan unit in your roster.");
+        }
+        if (order === "Snapshot" && !hasUnitId("_sp_")) {
+            warningMessages.push("• 'Snapshot' requires at least one Spartan unit in your roster.");
+        }
+        if (order === "Your Orders Have Changed" && !hasUnitId("unsc_oni_dare_legend")) {
+            warningMessages.push("• 'Your Orders Have Changed' requires Veronica Dare in your roster.");
+        }
+        if (order === "Hot Drop" && !hasUnitId("_odst_")) {
+            warningMessages.push("• 'Hot Drop' requires at least one ODST unit in your roster.");
+        }
+        if (order === "One Man Army" && !hasUnitId("unsc_sp_chief_legend")) {
+            warningMessages.push("• 'One Man Army' requires Master Chief in your roster.");
+        }
+        if (order === "Lone Wolf" && !hasUnitId("unsc_sp_noble_six_legend")) {
+            warningMessages.push("• 'Lone Wolf' requires Noble Six in your roster.");
+        }
+        if (order === "Holograms" && !hasUnitId("_noble_")) {
+            warningMessages.push("• 'Holograms' requires at least one Noble Team member in your roster.");
+        }
+        if (order === "Rampage" && !hasUnitId("_bru_")) {
+            warningMessages.push("• 'Rampage' requires at least one Jiralhanae unit in your roster.");
+        }
+        if (order === "Reinforcements Incoming" && !hasUnitId("_elite_")) {
+            warningMessages.push("• 'Reinforcements Incoming' requires at least one Sangheili unit in your roster.");
+        }
+        if (order === "Defiance" && !hasUnitId("ban_bru_atriox_legend")) {
+            warningMessages.push("• 'Defiance' requires Atriox in your roster.");
+        }
+        if (order === "Hand Of Atriox" && !hasUnitId("ban_elite_jega_legend") && !hasUnitId("ban_bru_hyper_legend") && !hasUnitId("ban_bru_tovar_legend")) {
+            warningMessages.push("• 'Hand Of Atriox' requires Jega, Hyperius, or Tovarus in your roster.");
+        }
+        if (order === "Target Acquired" && !activeRoster.some(u => /\bsupport\b/i.test(u.template.keywords))) {
+            warningMessages.push("• 'Target Acquired' requires at least one unit with the 'Support' keyword in your roster.");
+        }
+        if (order === "Unggoy Plasma Grenade Assault!" && !hasUnitId("_grunt_")) {
+            warningMessages.push("• 'Unggoy Plasma Grenade Assault!' requires at least one Grunt unit in your roster.");
+        }
+    });
+
+    // --- CONDITION 3: Strict "Support" Keyword Limit Check ---
     let totalModels = activeRoster.length;
     
     if (totalModels > 0) {
-        // More than half the team rounded down means: Math.floor(Total / 2)
         let maxAllowedSupport = Math.floor(totalModels / 2);
         let supportCount = 0;
 
         activeRoster.forEach(unit => {
-            // Regex \b ensures we match the standalone word "Support" 
-            // and completely ignores strings like "Support Weapon"
             if (/\bsupport\b/i.test(unit.template.keywords)) {
                 supportCount++;
             }
@@ -1072,21 +1142,20 @@ function checkSpecialOrderRequirement() {
     }
 
     // --- EVALUATION ENGINE ---
-    // If any warnings are present, the popup will explicitly print ONLY the active issues
     if (warningMessages.length > 0) {
         const promptMessage = "Warning: Your roster has the following issues:\n\n" + 
                               warningMessages.join("\n") + 
                               "\n\nWould you like to ignore these restrictions and proceed anyway?";
         
         const ignoreCheck = confirm(promptMessage);
-        return ignoreCheck; // Returns true (Ignore / Yes) or false (Cancel / No)
+        return ignoreCheck;
     }
 
-    return true; // Clear layout: no active issues found!
+    return true;
 }
 
-function triggerCleanViewValidation() { if (checkSpecialOrderRequirement()) { toggleCleanView(); } }
-function triggerPrintValidation() { if (checkSpecialOrderRequirement()) { window.print(); } }
+function triggerCleanViewValidation() { if (checkListValidation()) { toggleCleanView(); } }
+function triggerPrintValidation() { if (checkListValidation()) { window.print(); } }
 function toggleCleanView() { document.body.classList.toggle('clean-view'); window.scrollTo(0,0); }
 
 function toggleMonochromeOverride() {
@@ -1494,13 +1563,13 @@ function renderRoster() {
                             const isChief = nameLower.includes("chief") || nameLower.includes("117");
                             const isDefaultSpartan = t.isSpartan && !isNoble && !isChief;
                             
-                            const isEliteMerc = nameLower.includes("elite") || nameLower.includes("mercenary");
+                            const isElite = nameLower.includes("elite");
                             const isOdstUnit = nameLower.includes("odst");
                             const isDare = nameLower.includes("dare");
                             const hasNativeKnife = t.defaultWeapons.includes("Combat Knife");
 
                             if (w.name === "Energy Dagger") {
-                                if (!isEliteMerc) { isLocked = true; lockReason = " (SANGHEILI ONLY)"; }
+                                if (!isElite) { isLocked = true; lockReason = " (SANGHEILI ONLY)"; }
                             }
                             else if (w.name === "Standard Combat Knife") {
                                 if (!(isOdstUnit || isDare)) { isLocked = true; lockReason = " (ODST/DARE ONLY)"; }
@@ -1938,7 +2007,7 @@ function loadList() {
    FIXED: HIGH-FIDELITY MATCH TO NATIVE PRINT ENGINE (UTILITY DISPLAY ADDED)
    ========================================================================== */
 function exportPdf() {
-    if (!checkSpecialOrderRequirement()) return;
+    if (!checkListValidation()) return;
 
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: "pt", format: "a4" });
@@ -1991,7 +2060,7 @@ function exportPdf() {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9.6);
     doc.setTextColor(120, 120, 120);
-    doc.text("V1.2 - Updated to Noble Team (July 2026)", margin, y);
+    doc.text("V1.3 - Updated to Noble Team (July 2026)", margin, y);
 
     y += 8;
     doc.setDrawColor(0, 188, 212);
