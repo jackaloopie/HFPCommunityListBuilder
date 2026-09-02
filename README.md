@@ -81,3 +81,8 @@ Changelog v1.3  14-06-2026
 * Reinforcements Incoming requires a Sangheili unit (elite in ID).
 * Unggoy Plasma Grenade Assault! requires a Grunt unit (grunt in ID).
 * Keyword Matching: Target Acquired requires a model with the exact standalone Support keyword (isolated via raw regex from Support Weapons).
+
+Changelog v2.0 1/9/2026
+* Should be fully updated to v1.5.
+* Expanded list of reminders if list is invalid, such as 'too many support fireteam members'
+* Expect minor errors, email if found
